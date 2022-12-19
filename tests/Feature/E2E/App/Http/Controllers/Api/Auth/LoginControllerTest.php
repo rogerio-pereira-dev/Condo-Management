@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Integration\App\Http\Controllers\Api;
+namespace Tests\Feature\E2E\App\Http\Controllers\Api\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class AuthControllerTest extends TestCase
+class LoginControllerTest extends TestCase
 {
     protected $user;
 
