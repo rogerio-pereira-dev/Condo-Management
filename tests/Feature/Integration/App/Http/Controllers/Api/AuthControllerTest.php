@@ -105,18 +105,6 @@ class AuthControllerTest extends TestCase
                     ]
                 ]
             ],
-            'validation_email3' => [
-                'credentials' => [
-                    'email' => 'new@user',
-                    'password' => 'password',
-                ],
-                'status' => 422,
-                'jsonStructure' => [
-                    'errors' => [
-                        'email',
-                    ]
-                ]
-            ],
         ];
     }
 
