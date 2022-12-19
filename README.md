@@ -1,12 +1,12 @@
-#Condo Management
+# Condo Management
 
 This application
 
-## PreRequisites
+## Requirements
 - Linux
 - Docker
 
-##Installation
+## Installation
 1. Copy .env file
 ```
 cp .env.exxample .env
