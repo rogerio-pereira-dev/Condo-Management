@@ -21,7 +21,7 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
+            - condo
         depends_on:
             - mysql
             - redis
@@ -39,10 +39,10 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - 'sail-mysql:/var/lib/mysql'
+            - 'condo-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
-            - sail
+            - condo
         healthcheck:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
@@ -52,9 +52,9 @@ services:
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'sail-redis:/data'
+            - 'condo-redis:/data'
         networks:
-            - sail
+            - condo
         healthcheck:
             test: ["CMD", "redis-cli", "ping"]
             retries: 3
@@ -65,12 +65,12 @@ services:
             - '${FORWARD_MINIO_PORT:-9000}:9000'
             - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
         environment:
-            MINIO_ROOT_USER: 'sail'
-            MINIO_ROOT_PASSWORD: 'password'
+            MINIO_ROOT_USER: '${MINIO_USER}'
+            MINIO_ROOT_PASSWORD: '${MINIO_PASSWORD}'
         volumes:
-            - 'sail-minio:/data/minio'
+            - 'condo-minio:/data/minio'
         networks:
-            - sail
+            - condo
         command: minio server /data/minio --console-address ":8900"
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -82,14 +82,14 @@ services:
             - '${FORWARD_MAILHOG_PORT:-1025}:1025'
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
-            - sail
+            - condo
 networks:
-    sail:
+    condo:
         driver: bridge
 volumes:
-    sail-mysql:
+    condo-mysql:
         driver: local
-    sail-redis:
+    condo-redis:
         driver: local
-    sail-minio:
+    condo-minio:
         driver: local
