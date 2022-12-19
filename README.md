@@ -9,7 +9,7 @@ This application
 ## Installation
 1. Copy .env file
 ```
-cp .env.exxample .env
+cp .env.example .env
 ```
 2. Install composer dependecies
 ```
