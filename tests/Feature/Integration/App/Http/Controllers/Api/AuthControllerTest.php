@@ -71,6 +71,52 @@ class AuthControllerTest extends TestCase
                     ]
                 ]
             ],
+            'validation_required' => [
+                'credentials' => [],
+                'status' => 422,
+                'jsonStructure' => [
+                    'errors' => [
+                        'email',
+                        'password',
+                    ]
+                ]
+            ],
+            'validation_email' => [
+                'credentials' => [
+                    'email' => 'new',
+                    'password' => 'password',
+                ],
+                'status' => 422,
+                'jsonStructure' => [
+                    'errors' => [
+                        'email',
+                    ]
+                ]
+            ],
+            'validation_email2' => [
+                'credentials' => [
+                    'email' => 'new@',
+                    'password' => 'password',
+                ],
+                'status' => 422,
+                'jsonStructure' => [
+                    'errors' => [
+                        'email',
+                    ]
+                ]
+            ],
+            'validation_email3' => [
+                'credentials' => [
+                    'email' => 'new@user',
+                    'password' => 'password',
+                ],
+                'status' => 422,
+                'jsonStructure' => [
+                    'errors' => [
+                        'email',
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -79,7 +125,6 @@ class AuthControllerTest extends TestCase
      */
     public function testLogin($credentials, $status, $jsonStructure)
     {
-        $this->withoutExceptionHandling();
         $this->postJson(self::URL, $credentials)
             ->assertStatus($status)
             ->assertJsonStructure($jsonStructure);
