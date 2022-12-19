@@ -8,6 +8,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Tests\Unit\App\Models\ModelsTestCase;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UserTest extends ModelsTestCase
@@ -23,6 +24,7 @@ class UserTest extends ModelsTestCase
             HasApiTokens::class,
             HasFactory::class,
             Notifiable::class,
+            SoftDeletes::class,
         ];
     }
 
@@ -50,6 +52,7 @@ class UserTest extends ModelsTestCase
             'email_verified_at' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
         ];
     }
 }
