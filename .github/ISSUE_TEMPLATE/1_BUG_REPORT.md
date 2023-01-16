@@ -40,7 +40,7 @@ Database Driver:
 - [ ] SQLite
 - [ ] MySQL
 - [ ] PostgreSQL
-- [ ] SQL Server 
+- [ ] SQL Server  
 Database Version: #.#.#
 
 \
