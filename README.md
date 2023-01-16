@@ -20,7 +20,7 @@ In order to ensure an welcoming environment to all, please review and abide by t
 
 ## Credits
 
-- [Rogerio Pereira](https://github.com/rogerio-pereira-dev)
+- [Rogerio Pereira](https://github.com/rogerio-pereira)
 - [All Contributors](https://github.com/rogerio-pereira-dev/Condo-Management-Backend/graphs/contributors)
 
 <br />
