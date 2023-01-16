@@ -18,16 +18,16 @@ class LoginController extends Controller
             $user = Auth::user();
 
             return response()->json([
-                'message' => 'Login successfull',
-                'user' => new UserResource($user),
-            ], 200);
+                    'message' => 'Login successfull',
+                    'user' => new UserResource($user),
+                ], 200);
         }
 
         return response()->json([
-            'errors' => [
-                'email' => ['Invalid credentials']
-            ],
-            'message' => 'Invalid credentials'
-        ], 403);
+                'errors' => [
+                    'email' => ['Invalid credentials']
+                ],
+                'message' => 'Invalid credentials'
+            ], 403);
     }
 }
