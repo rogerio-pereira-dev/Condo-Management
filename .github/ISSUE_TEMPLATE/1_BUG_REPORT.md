@@ -37,10 +37,12 @@ Yarn Version: #.#.#\
 PHP Version: #.#.#\
 Laravel Version: #.#.#\
 Database Driver:
+
 - [ ] SQLite
 - [ ] MySQL
 - [ ] PostgreSQL
-- [ ] SQL Server  
+- [ ] SQL Server
+
 Database Version: #.#.#
 
 \
