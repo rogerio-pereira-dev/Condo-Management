@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -13,17 +14,20 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
 
-        if (Auth::attempt($credentials)) {            
+        if (Auth::attempt($credentials)) { 
+            $user = Auth::user();
+
             return response()->json([
-                'message' => 'Login successfull'
-            ], 200);
+                    'message' => 'Login successfull',
+                    'user' => new UserResource($user),
+                ], 200);
         }
 
         return response()->json([
-            'errors' => [
-                'email' => ['Invalid credentials']
-            ],
-            'message' => 'Invalid credentials'
-        ], 403);
+                'errors' => [
+                    'email' => ['Invalid credentials']
+                ],
+                'message' => 'Invalid credentials'
+            ], 403);
     }
 }

@@ -32,7 +32,12 @@ class LoginControllerTest extends TestCase
                 ],
                 'status' => 200,
                 'jsonStructure' => [
-                    'message' 
+                    'message',
+                    'user' => [
+                        'id',
+                        'name',
+                        'email',
+                    ]
                 ]
             ],
             'wrong_email' => [
