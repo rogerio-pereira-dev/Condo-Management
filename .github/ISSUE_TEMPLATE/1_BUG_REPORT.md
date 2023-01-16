@@ -36,11 +36,11 @@ NPM Version: #.#.#\
 Yarn Version: #.#.#\
 PHP Version: #.#.#\
 Laravel Version: #.#.#\
-Database Driver: 
+Database Driver:
 - [ ] SQLite
 - [ ] MySQL
 - [ ] PostgreSQL
-- [ ] SQL Server
+- [ ] SQL Server 
 Database Version: #.#.#
 
 \
