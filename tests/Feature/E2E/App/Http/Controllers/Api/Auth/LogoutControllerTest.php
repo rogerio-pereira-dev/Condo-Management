@@ -14,7 +14,7 @@ class LogoutControllerTest extends TestCase
 
     public function testlogout()
     {
-        $this->actingAs(self::$user);
+        $this->actingAs($this->userAdmin);
         
         $this->assertFalse(Auth::guest());
 

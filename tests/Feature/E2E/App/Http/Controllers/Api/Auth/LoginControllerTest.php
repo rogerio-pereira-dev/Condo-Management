@@ -16,7 +16,7 @@ class LoginControllerTest extends TestCase
         return [
             'login_ok' => [
                 'credentials' => [
-                    'email' => 'test@user.com',
+                    'email' => 'admin@user.com',
                     'password' => 'password',
                 ],
                 'status' => 200,
@@ -43,7 +43,7 @@ class LoginControllerTest extends TestCase
             ],
             'wrong_password' => [
                 'credentials' => [
-                    'email' => 'test@user.com',
+                    'email' => 'admin@user.com',
                     'password' => 'wrongpassword',
                 ],
                 'status' => 403,

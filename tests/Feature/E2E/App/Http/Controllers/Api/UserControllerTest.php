@@ -13,13 +13,14 @@ class UserControllerTest extends TestCase
 {
     CONST URL = '/api/user';
 
+    #region dataProviders
     public function createDataProvider() : array
     {
         return [
             'admin_ok' => [
                 'data' => [
                     'name' => 'User Admin',
-                    'email' => 'admin@user.com',
+                    'email' => 'admin@admin.com',
                     'password' => 'Admin@2023',
                     'confirmation' => 'Admin@2023',
                     'role' => 'Admin'
@@ -28,9 +29,9 @@ class UserControllerTest extends TestCase
                 'json' => [
                     'message' => 'User created.',
                     'user' => [
-                        'id' => 2,
+                        'id' => 4,
                         'name' => 'User Admin',
-                        'email' => 'admin@user.com',
+                        'email' => 'admin@admin.com',
                         'role' => 'Admin'
                     ]
                 ]
@@ -38,7 +39,7 @@ class UserControllerTest extends TestCase
             'maintenance_ok' => [
                 'data' => [
                     'name' => 'User Maintenance',
-                    'email' => 'maintenance@user.com',
+                    'email' => 'maintenance@maintenance.com',
                     'password' => 'Maintenance@2023',
                     'confirmation' => 'Maintenance@2023',
                     'role' => 'Maintenance'
@@ -47,9 +48,9 @@ class UserControllerTest extends TestCase
                 'json' => [
                     'message' => 'User created.',
                     'user' => [
-                        'id' => 3,
+                        'id' => 4,
                         'name' => 'User Maintenance',
-                        'email' => 'maintenance@user.com',
+                        'email' => 'maintenance@maintenance.com',
                         'role' => 'Maintenance'
                     ]
                 ]
@@ -57,7 +58,7 @@ class UserControllerTest extends TestCase
             'tenant_ok' => [
                 'data' => [
                     'name' => 'User Tenant',
-                    'email' => 'tenant@user.com',
+                    'email' => 'tenant@tenant.com',
                     'password' => 'Tenant@2023',
                     'confirmation' => 'Tenant@2023',
                     'role' => 'Tenant'
@@ -68,7 +69,7 @@ class UserControllerTest extends TestCase
                     'user' => [
                         'id' => 4,
                         'name' => 'User Tenant',
-                        'email' => 'tenant@user.com',
+                        'email' => 'tenant@tenant.com',
                         'role' => 'Tenant'
                     ]
                 ]
@@ -76,7 +77,7 @@ class UserControllerTest extends TestCase
             'validation_nullable' => [
                 'data' => [
                     'name' => 'User Tenant 2',
-                    'email' => 'tenant2@user.com',
+                    'email' => 'tenant2@tenant2.com',
                     'password' => 'Tenant@2023',
                     'confirmation' => 'Tenant@2023',
                 ],
@@ -84,9 +85,9 @@ class UserControllerTest extends TestCase
                 'json' => [
                     'message' => 'User created.',
                     'user' => [
-                        'id' => 5,
+                        'id' => 4,
                         'name' => 'User Tenant 2',
-                        'email' => 'tenant2@user.com',
+                        'email' => 'tenant2@tenant2.com',
                         'role' => 'Tenant'
                     ]
                 ]
@@ -194,6 +195,8 @@ class UserControllerTest extends TestCase
         ];
     }
 
+    #endregion
+
     /**
      * Test Create User
      * 
@@ -201,7 +204,7 @@ class UserControllerTest extends TestCase
      */
     public function testCreateUser($data, $status, $json)
     {
-        $this->actingAs(self::$user)
+        $this->actingAs($this->userAdmin)
             ->postJson(self::URL, $data)
             ->assertStatus($status)
             ->assertJson($json);
@@ -218,6 +221,18 @@ class UserControllerTest extends TestCase
         }
     }
 
+    // public function testListUsers($url, $count, $json)
+    public function testListUsers()
+    {
+        $this->seedDatabase();
+
+        // $this->actingAs(self::$userAdmin)
+        //     ->postJson(self::URL, $data)
+        //     ->assertStatus($status)
+        //     ->assertJson($json);
+    }
+
+    #region privateFunctions
     /**
      * Check if Password Hash is valid
      *
@@ -263,4 +278,29 @@ class UserControllerTest extends TestCase
         $this->postJson('/api/login', $credentials)
                 ->assertStatus(200);
     }
+
+
+    /**
+     * Delete all users and create 3 new users
+     *
+     * @return void
+     */
+    private function seedDatabase()
+    {
+        User::factory()->create([
+            'name' => 'User Admin 2',
+            'email' => 'admin2@user.com',
+            'role' => 'Admin'
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'id' => 4,
+            'name' => 'User Admin 2',
+            'email' => 'admin2@user.com',
+            'role' => 'Admin'
+        ]);
+        
+        $this->assertDatabaseCount('users', 4);
+    }
+    #endregion
 }
