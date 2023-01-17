@@ -5,6 +5,7 @@ namespace Tests\Feature\E2E\App\Http\Controllers\Api;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -101,10 +102,23 @@ class UserControllerTest extends TestCase
 
         //Make sure user can log in
         if($status == 201) {
+            $this->checkPasswordHash($data);
+
             $this->logout();
 
             $this->login($data);
         }
+    }
+
+    private function checkPasswordHash($data)
+    {
+        $user = User::where('name', $data['name'])
+                    ->where('email', $data['email'])
+                    ->first()
+                    ->makeVisible('password');
+        $hashMatches = Hash::check($data['password'], $user->password);
+
+        $this->assertTrue($hashMatches);
     }
 
     private function logout()
