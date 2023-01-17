@@ -34,6 +34,7 @@ class UserTest extends ModelsTestCase
             'name',
             'email',
             'password',
+            'role',
         ];
     }
 

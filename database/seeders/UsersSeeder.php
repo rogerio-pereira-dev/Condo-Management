@@ -15,10 +15,35 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::factory()->create([
-                        'name' => 'Rogerio Pereira',
-                        'email' => 'hi@rogeriopereira.dev',
-                        'password' => '$2y$10$HVuDYFwgYUeEaZls.pGauOuGkRItjkAqKViHa5X32mSK9p/UQHY3.'
-                    ]);
+        User::factory()->create([
+                'name' => 'Rogerio Pereira',
+                'email' => 'hi@rogeriopereira.dev',
+                'password' => '$2y$10$HVuDYFwgYUeEaZls.pGauOuGkRItjkAqKViHa5X32mSK9p/UQHY3.',
+                'role' => 'Admin'
+            ]);
+
+        //Admin User
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@test.com',
+            'password' => bcrypt('admin'),
+            'role' => 'Admin'
+        ]);
+
+        //Maintenance
+        User::factory()->create([
+                'name' => 'Maintenance User',
+                'email' => 'maintenance@test.com',
+                'password' => bcrypt('maintenance'),
+                'role' => 'Maintenance'
+            ]);
+
+        //Tenant
+        User::factory()->create([
+                'name' => 'Tenant User',
+                'email' => 'tenant@test.com',
+                'password' => bcrypt('tenant'),
+                'role' => 'Tenant'
+            ]);
     }
 }
