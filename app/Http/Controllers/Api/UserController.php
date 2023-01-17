@@ -15,9 +15,20 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(string $category = null)
     {
-        //
+        $query = User::orderBy('id');
+
+        if(isset($category) && $category == 'employee') {
+            $query->where('role', '<>', 'Tenant');
+        }
+        elseif(isset($category)) {
+            $query->where('role', $category);
+        }
+
+        $users = $query->get();
+
+        return UserResource::collection($users);
     }
 
     /**

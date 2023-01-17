@@ -22,6 +22,7 @@ Route::group(['auth:sanctum'], function(){
     Route::post('/logout', [LogoutController::class, 'logout']);
 
     Route::apiResource('/user', UserController::class);
+    Route::get('/user/category/{category?}', [UserController::class, 'index']);
 });
 
 

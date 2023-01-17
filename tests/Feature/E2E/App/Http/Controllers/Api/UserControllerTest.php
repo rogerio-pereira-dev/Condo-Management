@@ -195,6 +195,124 @@ class UserControllerTest extends TestCase
         ];
     }
 
+    public function listDataProvider() : array
+    {
+        return [
+            'all_users' => [
+                'category' => null,
+                'count' => 4,
+                'json' => [
+                    'data' => [
+                        [
+                            'id' => 1,
+                            'name' => 'User Admin',
+                            'email' => 'admin@user.com',
+                            'role' => 'Admin'
+                        ],
+                        [
+                            'id' => 2,
+                            'name' => 'User Maintenance',
+                            'email' => 'maintenance@user.com',
+                            'role' => 'Maintenance'
+                        ],
+                        [
+                            'id' => 3,
+                            'name' => 'User Tenant',
+                            'email' => 'tenat@user.com',
+                            'role' => 'Tenant'
+                        ],
+                        [
+                            'id' => 4,
+                            'name' => 'User Admin 2',
+                            'email' => 'admin2@user.com',
+                            'role' => 'Admin'
+                        ],
+                    ]
+                ]
+            ],
+            'admin_users' => [
+                'category' => 'admin',
+                'count' => 2,
+                'json' => [
+                    'data' => [
+                        [
+                            'id' => 1,
+                            'name' => 'User Admin',
+                            'email' => 'admin@user.com',
+                            'role' => 'Admin'
+                        ],
+                        [
+                            'id' => 4,
+                            'name' => 'User Admin 2',
+                            'email' => 'admin2@user.com',
+                            'role' => 'Admin'
+                        ],
+                    ]
+                ]
+            ],
+            'maintenance_users' => [
+                'category' => 'maintenance',
+                'count' => 1,
+                'json' => [
+                    'data' => [
+                        [
+                            'id' => 2,
+                            'name' => 'User Maintenance',
+                            'email' => 'maintenance@user.com',
+                            'role' => 'Maintenance'
+                        ],
+                    ]
+                ]
+            ],
+            'tenant_users' => [
+                'category' => 'tenant',
+                'count' => 1,
+                'json' => [
+                    'data' => [
+                        [
+                            'id' => 3,
+                            'name' => 'User Tenant',
+                            'email' => 'tenat@user.com',
+                            'role' => 'Tenant'
+                        ],
+                    ]
+                ]
+            ],
+            'employee_users' => [
+                'category' => 'employee',
+                'count' => 3,
+                'json' => [
+                    'data' => [
+                        [
+                            'id' => 1,
+                            'name' => 'User Admin',
+                            'email' => 'admin@user.com',
+                            'role' => 'Admin'
+                        ],
+                        [
+                            'id' => 2,
+                            'name' => 'User Maintenance',
+                            'email' => 'maintenance@user.com',
+                            'role' => 'Maintenance'
+                        ],
+                        [
+                            'id' => 4,
+                            'name' => 'User Admin 2',
+                            'email' => 'admin2@user.com',
+                            'role' => 'Admin'
+                        ],
+                    ]
+                ]
+            ],
+            'invalid_users' => [
+                'category' => 'invalid',
+                'count' => 0,
+                'json' => [
+                    'data' => []
+                ]
+            ],
+        ];
+    }
     #endregion
 
     /**
@@ -221,15 +339,23 @@ class UserControllerTest extends TestCase
         }
     }
 
-    // public function testListUsers($url, $count, $json)
-    public function testListUsers()
+    /**
+     * Test Create User
+     * 
+     * @dataProvider listDataProvider
+     */
+    public function testListUsers($category, $count, $json)
     {
         $this->seedDatabase();
 
-        // $this->actingAs(self::$userAdmin)
-        //     ->postJson(self::URL, $data)
-        //     ->assertStatus($status)
-        //     ->assertJson($json);
+        $requestUrl = self::URL;
+        if(isset($category))
+            $requestUrl .= "/category/{$category}";
+
+        $this->actingAs($this->userAdmin)
+            ->getJson($requestUrl)
+            ->assertJsonCount($count, 'data')
+            ->assertJson($json);
     }
 
     #region privateFunctions
