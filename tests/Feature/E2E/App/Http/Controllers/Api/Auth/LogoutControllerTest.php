@@ -12,20 +12,9 @@ class LogoutControllerTest extends TestCase
 {
     CONST URL = '/api/logout';
 
-    protected $user;
-
-    public function setUp() : void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'test@user.com',
-        ]);
-    }
-
     public function testlogout()
     {
-        $this->actingAs($this->user);
+        $this->actingAs(self::$user);
         
         $this->assertFalse(Auth::guest());
 

@@ -9,18 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginControllerTest extends TestCase
 {
-    protected $user;
-
     CONST URL = '/api/login';
-
-    public function setUp() : void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'test@user.com',
-        ]);
-    }
 
     public function loginDataProvider() : array
     {
