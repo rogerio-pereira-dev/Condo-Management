@@ -1,7 +1,7 @@
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    app:
+    laravel.test:
         build:
             context: ./docker/8.1
             dockerfile: Dockerfile
