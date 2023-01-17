@@ -71,7 +71,19 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        unset($data['role']);
+        unset($data['password']);
+
+        $user = User::where('id', $id)
+                    ->firstOrFail();
+
+        $user->update($data);
+
+        return response()->json([
+            'message' => 'User updated.',
+            'user' => new UserResource($user),
+        ], 200);
     }
 
     /**
@@ -82,6 +94,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::where('id', $id)
+                    ->firstOrfail();
+        $user->delete();
+
+        return response()->json([], 204);
     }
 }

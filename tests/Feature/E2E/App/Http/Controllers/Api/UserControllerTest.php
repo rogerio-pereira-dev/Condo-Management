@@ -313,6 +313,91 @@ class UserControllerTest extends TestCase
             ],
         ];
     }
+
+    public function updateDateProvider() : array
+    {
+        return [
+            'all_fields' => [
+                'data' => [
+                    'name' => 'User Updated',
+                    'email' => 'email@updated.com',
+                    'role' => 'Admin'
+                ],
+                'status' => 200,
+                'json' => [
+                    'message' => 'User updated.',
+                    'user' => [
+                        'id' => 3,
+                        'name' => 'User Updated',
+                        'email' => 'email@updated.com',
+                        'role' => 'Tenant'
+                    ]
+                ]
+            ],
+            'only_name' => [
+                'data' => [
+                    'name' => 'User Updated',
+                ],
+                'status' => 200,
+                'json' => [
+                    'message' => 'User updated.',
+                    'user' => [
+                        'id' => 3,
+                        'name' => 'User Updated',
+                        'email' => 'tenat@user.com',
+                        'role' => 'Tenant'
+                    ]
+                ]
+            ],
+            'only_email' => [
+                'data' => [
+                    'email' => 'email@updated.com',
+                ],
+                'status' => 200,
+                'json' => [
+                    'message' => 'User updated.',
+                    'user' => [
+                        'id' => 3,
+                        'name' => 'User Tenant',
+                        'email' => 'email@updated.com',
+                        'role' => 'Tenant'
+                    ]
+                ]
+            ],
+            'only_password' => [
+                'data' => [
+                    'password' => 'newPassword123',
+                    'confirmation' => 'newPassword123',
+                ],
+                'status' => 200,
+                'json' => [
+                    'message' => 'User updated.',
+                    'user' => [
+                        'id' => 3,
+                        'name' => 'User Tenant',
+                        'email' => 'tenat@user.com',
+                        'role' => 'Tenant'
+                    ]
+                ]
+            ],
+            'only_role' => [
+                'data' => [
+                    'password' => 'newPassword123',
+                    'confirmation' => 'newPassword123',
+                ],
+                'status' => 200,
+                'json' => [
+                    'message' => 'User updated.',
+                    'user' => [
+                        'id' => 3,
+                        'name' => 'User Tenant',
+                        'email' => 'tenat@user.com',
+                        'role' => 'Tenant'
+                    ]
+                ]
+            ]
+        ];
+    }
     #endregion
 
     /**
@@ -358,20 +443,143 @@ class UserControllerTest extends TestCase
             ->assertJson($json);
     }
 
+    /**
+     * Test Delete User
+     *
+     * @return void
+     */
+    public function testDeleteUser()
+    {
+        $this->assertDatabaseHas('users', [
+            'id' => 3,
+            'name' => 'User Tenant',
+            'email' => 'tenat@user.com',
+            'role' => 'Tenant',
+            'deleted_at' => null
+        ]);
+
+        $this->actingAs($this->userAdmin)
+            ->deleteJson(self::URL.'/3')
+            ->assertStatus(204);
+            
+        $this->assertSoftDeleted('users', [
+            'id' => 3,
+            'name' => 'User Tenant',
+            'email' => 'tenat@user.com',
+            'role' => 'Tenant',
+        ]);
+    }
+
+    /**
+     * Test Delete User that doesn't exist
+     *
+     * @return void
+     */
+    public function testDeleteUserShouldReturn404WhenNotFound()
+    {
+        $this->assertDatabaseMissing('users', [
+            'id' => 999,
+        ]);
+
+        $this->actingAs($this->userAdmin)
+            ->deleteJson(self::URL.'/999')
+            ->assertStatus(404);
+    }
+
+    /**
+     * Test Update User
+     * 
+     * @dataProvider updateDateProvider
+     */
+    public function testUpdateUser($data, $status, $json)
+    {
+        $this->assertDatabaseHas('users', [
+            'id' => 3,
+            'name' => 'User Tenant',
+            'email' => 'tenat@user.com',
+            'role' => 'Tenant',
+        ]);
+
+        $this->actingAs($this->userAdmin)
+            ->putJson(self::URL.'/3', $data)
+            ->assertStatus($status)
+            ->assertJson($json);
+        
+        if($status == 200) {
+            $this->assertDatabaseHas('users', [
+                'id' => 3,
+                'name' => isset($data['name']) ? $data['name'] : 'User Tenant',
+                'email' => isset($data['email']) ? $data['email'] : 'tenat@user.com',
+                'role' => 'Tenant',
+            ]);
+
+            if(isset($data['password'])) {
+                //Check password was encrypted
+                $this->checkPasswordUpdatedHash();
+            }
+
+            //Test Login
+            $this->logout();
+
+            $credentials = [
+                'email' => isset($data['email']) ? $data['email'] : 'tenat@user.com',
+                'password' => 'password',   //Can't update password from edit form
+            ];
+            $this->login($credentials);
+        }
+    }
+    
+
+    /**
+     * Test Update User that doesn't exist
+     *
+     * @return void
+     */
+    public function testUpdateUserShouldReturn404WhenNotFound()
+    {
+        $this->assertDatabaseMissing('users', [
+            'id' => 999,
+        ]);
+
+        $this->actingAs($this->userAdmin)
+            ->putJson(self::URL.'/999', [
+                'name' => 'User Updated',
+                'email' => 'email@updated.com',
+                'role' => 'Admin'
+            ])
+            ->assertStatus(404);
+    }
+
     #region privateFunctions
     /**
      * Check if Password Hash is valid
      *
-     * @param [type] $data
+     * @param array $data
      * @return void
      */
-    private function checkPasswordHash($data)
+    private function checkPasswordHash(array $data)
     {
         $user = User::where('name', $data['name'])
                     ->where('email', $data['email'])
                     ->first()
                     ->makeVisible('password');
         $hashMatches = Hash::check($data['password'], $user->password);
+
+        $this->assertTrue($hashMatches);
+    }
+
+    /**
+     * Check if user 3 password matches, 
+     *
+     * @param string $password
+     * @return void
+     */
+    private function checkPasswordUpdatedHash()
+    {
+        $user = User::where('id', 3)
+                    ->first()
+                    ->makeVisible('password');
+        $hashMatches = Hash::check('password', $user->password);
 
         $this->assertTrue($hashMatches);
     }
