@@ -16,14 +16,10 @@ Thank you for considering contributing to this project, the contribution guide c
 
 In order to ensure an welcoming environment to all, please review and abide by the [Code of Conduct](https://github.com/rogerio-pereira-dev/Condo-Management-Backend/blob/main/CODE_OF_CONDUCT.md)).
 
-<br />
-
 ## Credits
 
 - [Rogerio Pereira](https://github.com/rogerio-pereira)
 - [All Contributors](https://github.com/rogerio-pereira-dev/Condo-Management-Backend/graphs/contributors)
-
-<br />
 
 ## License
 
