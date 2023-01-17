@@ -36,6 +36,7 @@ class CreateUserRequest extends FormRequest
                         ->symbols(),
                 ],
             'confirmation' => 'required|same:password',
+            'role' => 'nullable|in:Admin,Maintenance,Tenant'
         ];
     }
 }

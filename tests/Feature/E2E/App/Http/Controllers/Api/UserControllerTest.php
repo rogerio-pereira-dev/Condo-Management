@@ -73,7 +73,7 @@ class UserControllerTest extends TestCase
                     ]
                 ]
             ],
-            'no_role_ok' => [
+            'validation_nullable' => [
                 'data' => [
                     'name' => 'User Tenant 2',
                     'email' => 'tenant2@user.com',
@@ -148,6 +148,45 @@ class UserControllerTest extends TestCase
                             "The password must contain at least one uppercase and one lowercase letter.",
                             "The password must contain at least one symbol.",
                             "The password must contain at least one number."
+                        ],
+                    ]
+                ]
+            ],
+            'validaton_in' => [
+                'data' => [
+                    'role' => 'admin',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'role' => [
+                            "The selected role is invalid.",
+                        ],
+                    ]
+                ]
+            ],
+            'validaton_in_2' => [
+                'data' => [
+                    'role' => 'maintenance',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'role' => [
+                            "The selected role is invalid.",
+                        ],
+                    ]
+                ]
+            ],
+            'validaton_in_3' => [
+                'data' => [
+                    'role' => 'tenant',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'role' => [
+                            "The selected role is invalid.",
                         ],
                     ]
                 ]
