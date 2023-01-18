@@ -17,4 +17,3 @@ yarn-error.log
 /.idea
 /.vscode
 /.phpunit.cache/
-clover.xml
