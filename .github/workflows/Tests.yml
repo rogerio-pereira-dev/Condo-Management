@@ -9,19 +9,23 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
+    
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.1
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '8.1'
-        services:
-          mysql:
-            image: mysql:5.7
-            env:
-              MYSQL_ROOT_PASSWORD: password
-              MYSQL_DATABASE: testing
-            ports:
-              - 33306:3306
-            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       - uses: actions/checkout@v3
 
