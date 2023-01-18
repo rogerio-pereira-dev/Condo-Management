@@ -395,7 +395,29 @@ class UserControllerTest extends TestCase
                         'role' => 'Tenant'
                     ]
                 ]
-            ]
+            ],
+            'validation_email' => [
+                'data' => [
+                    'email' => 'email',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'email' => ['The email must be a valid email address.'],
+                    ]
+                ]
+            ],
+            'validation_email2' => [
+                'data' => [
+                    'email' => 'email@',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'email' => ['The email must be a valid email address.'],
+                    ]
+                ]
+            ],
         ];
     }
     #endregion
@@ -510,11 +532,11 @@ class UserControllerTest extends TestCase
                 'id' => 3,
                 'name' => isset($data['name']) ? $data['name'] : 'User Tenant',
                 'email' => isset($data['email']) ? $data['email'] : 'tenat@user.com',
-                'role' => 'Tenant',
+                'role' => 'Tenant', //Can't update role
             ]);
 
             if(isset($data['password'])) {
-                //Check password was encrypted
+                //Check if password didn't changed, theres a route only for it
                 $this->checkPasswordUpdatedHash();
             }
 

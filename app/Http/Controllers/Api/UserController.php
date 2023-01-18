@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -69,7 +70,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $data = $request->all();
         unset($data['role']);
