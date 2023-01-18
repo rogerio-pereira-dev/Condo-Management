@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
 
         $user = User::create($data);
@@ -72,7 +72,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $data = $request->all();
+        $data = $request->validated();
         unset($data['role']);
         unset($data['password']);
 
