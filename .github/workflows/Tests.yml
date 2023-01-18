@@ -39,5 +39,5 @@ jobs:
     - name: Add Test Coverage Badge
       uses: timkrase/phpunit-coverage-badge@v1.2.0
       with:
-        report: storage/logs/code-coverage/clover.xml
+        report: ././storage/logs/code-coverage/clover.xml
         report_type: clover
