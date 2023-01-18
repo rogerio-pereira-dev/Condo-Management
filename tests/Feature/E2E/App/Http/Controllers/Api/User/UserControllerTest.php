@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\E2E\App\Http\Controllers\Api;
+namespace Tests\Feature\E2E\App\Http\Controllers\Api\User;
 
 use Tests\TestCase;
 use App\Models\User;
