@@ -446,6 +446,24 @@ class UserControllerTest extends TestCase
         }
     }
 
+    public function testCreateUserShouldGenerateUuid()
+    {
+        $this->actingAs($this->userAdmin)
+            ->postJson(self::URL, [
+                'name' => 'User UUID',
+                'email' => 'user@user.com',
+                'password' => 'Admin@2023',
+                'confirmation' => 'Admin@2023',
+                'role' => 'Admin'
+            ])
+            ->assertStatus(201);
+
+        $user = User::where('email', 'user@user.com')
+                    ->first();
+        
+        $this->assertNotNull($user->uuid);
+    }
+
     /**
      * Test Create User
      * 

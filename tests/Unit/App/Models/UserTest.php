@@ -31,6 +31,7 @@ class UserTest extends ModelsTestCase
     protected function expectedFillable() : array
     {
         return [
+            'uuid',
             'name',
             'email',
             'password',
@@ -55,5 +56,19 @@ class UserTest extends ModelsTestCase
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
+    }
+
+    public function test_observer_creating()
+    {
+        $data = [
+            'name' => 'User UUID',
+            'email' => 'user@user.com',
+            'password' => bcrypt('password'),
+            'role' => 'Admin'
+        ];
+
+        $user = User::create($data);
+
+        $this->assertNotNull($user->uuid);
     }
 }

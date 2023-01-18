@@ -49,7 +49,7 @@ class ChangePasswordMail extends Mailable
             markdown: 'emails.user.change-password',
             with: [
                 'user' => $this->user,
-                'url' => url("/user/change-password/from-mail/{$this->user->id}"),
+                'url' => url("/user/change-password/from-mail/{$this->user->uuid}"),
             ],
         );
     }
