@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\User\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,9 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 Route::group(['auth:sanctum'], function(){
     Route::post('/logout', [LogoutController::class, 'logout']);
 
-    Route::apiResource('/user', UserController::class);
+    Route::post('/user/change-password', [ChangePasswordController::class, 'changePassword']);
     Route::get('/user/category/{category?}', [UserController::class, 'index']);
+    Route::apiResource('/user', UserController::class);
 });
 
 
