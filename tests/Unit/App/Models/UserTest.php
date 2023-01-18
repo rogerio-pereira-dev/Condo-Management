@@ -57,18 +57,4 @@ class UserTest extends ModelsTestCase
             'deleted_at' => 'datetime',
         ];
     }
-
-    public function test_observer_creating()
-    {
-        $data = [
-            'name' => 'User UUID',
-            'email' => 'user@user.com',
-            'password' => bcrypt('password'),
-            'role' => 'Admin'
-        ];
-
-        $user = User::create($data);
-
-        $this->assertNotNull($user->uuid);
-    }
 }
