@@ -1,4 +1,5 @@
 # Condo Management (BackEnd)
+[![Actions Status](https://github.com/rogerio-pereira-dev/Condo-Management-Backend/workflows/CI_Tests/badge.svg)](https://github.com/rogerio-pereira-dev/Condo-Management-Backend/actions)
 
 Welcome to Condo Management (Backend). This is an opens source project to Manage a Condo.
 
