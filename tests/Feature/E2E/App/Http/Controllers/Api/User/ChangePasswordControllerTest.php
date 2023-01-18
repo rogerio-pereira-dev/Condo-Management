@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\User\ChangePasswordMail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -79,6 +81,41 @@ class ChangePasswordControllerTest extends TestCase
             ],
         ];
     }
+    public function requestPasswordChangeProvider() : array
+    {
+        return [
+            'ok' => [
+                'userId' => 3,
+                'status' => 200,
+                'json' => [
+                    'message' => 'Email requesting password change sent.'
+                ]
+            ],
+            'wrong_user' => [
+                'userId' => 999,
+                'status' => 404,
+                'json' => []
+            ],
+            'validation_required' => [
+                'user_id' => null,
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'user_id' => ['The user id field is required.']
+                    ]
+                ]
+            ],
+            'validation_numeric' => [
+                'user_id' => 'id',
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'user_id' => ['The user id must be a number.']
+                    ]
+                ]
+            ],
+        ];
+    }
 
 
     /**
@@ -103,6 +140,40 @@ class ChangePasswordControllerTest extends TestCase
 
         $this->checkPasswordHash($this->credentials['password']);
         $this->login($this->credentials);
+    }
+
+    /**
+     * Test Update User
+     * 
+     * @dataProvider requestPasswordChangeProvider
+     */
+    public function testRequestPasswordChange($userId, $status, $json)
+    {
+        Mail::fake();
+
+        $this->assertDatabaseMissing('users', [
+            'id' => 999,
+        ]);
+        
+        $this->actingAs($this->userAdmin)
+            ->postJson(self::URL.'/request', [
+                'user_id' => $userId
+            ])
+            ->assertStatus($status)
+            ->assertJson($json);
+        
+        if($status == 200) {
+            $to = $this->userTenant;
+            $subject = config('app.name').' - Requested to Change Password';
+
+            Mail::assertSent(ChangePasswordMail::class, function ($mail) use ($to, $subject) {
+                return  $mail->hasTo($to->email) &&
+                        $mail->hasSubject($subject);
+            });
+        }
+        else {
+            Mail::assertNotSent(ChangePasswordMail::class);
+        }
     }
 
     #region privateFunctions

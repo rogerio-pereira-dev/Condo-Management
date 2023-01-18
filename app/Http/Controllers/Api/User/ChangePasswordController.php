@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\User\ChangePasswordMail;
 use App\Http\Requests\User\ChangePasswordRequest;
+use App\Http\Requests\User\RequestChangePasswordRequest;
 
 class ChangePasswordController extends Controller
 {
@@ -19,5 +23,17 @@ class ChangePasswordController extends Controller
         return response()->json([
             'message' => 'Password changed.'
         ], 200);
+    }
+
+    public function requestChangePassword(RequestChangePasswordRequest $request)
+    {
+        $user = User::findOrFail($request->user_id);
+
+        Mail::to($user->email)
+            ->send(new ChangePasswordMail($user));
+
+        return response()->json([
+                        'message' => 'Email requesting password change sent.'
+                    ], 200);
     }
 }
