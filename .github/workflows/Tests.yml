@@ -32,3 +32,6 @@ jobs:
  
     - name: Run tests
       run: vendor/bin/phpunit
+
+    - name: Add Test Coverage Badge
+      uses: timkrase/phpunit-coverage-badge@v1.2.0
