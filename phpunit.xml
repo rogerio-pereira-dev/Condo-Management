@@ -12,18 +12,10 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <!-- <coverage processUncoveredFiles="true">
+    <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./app</directory>
         </include>
-    </coverage> -->
-    <coverage cacheDirectory="storage/logs/code-coverage" processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">./app</directory>
-        </include>
-        <report>
-            <clover outputFile="./clover.xml" />
-        </report>
     </coverage>
     <php>
         <env name="APP_ENV" value="testing"/>
