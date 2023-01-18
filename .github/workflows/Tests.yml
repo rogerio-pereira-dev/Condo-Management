@@ -33,6 +33,9 @@ jobs:
 
     - name: Generate key
       run: php artisan key:generate
+
+    - name: Run PHPUnit tests
+      run: vendor/bin/phpunit
     
     - name: phpunit-coverage-badge
       uses: timkrase/phpunit-coverage-badge@v1.2.0
