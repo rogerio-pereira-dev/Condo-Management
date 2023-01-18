@@ -20,7 +20,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
  
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 1
  
@@ -39,5 +39,5 @@ jobs:
     - name: Add Test Coverage Badge
       uses: timkrase/phpunit-coverage-badge@v1.2.0
       with:
-        report: ././storage/logs/code-coverage/clover.xml
+        report: ./clover.xml
         report_type: clover
