@@ -19,3 +19,7 @@ use Inertia\Inertia;
 Route::get('/login', function () {
     return Inertia::render('Login', []);
 });
+
+Route::get('/', function (){
+    return 'ok';
+});
