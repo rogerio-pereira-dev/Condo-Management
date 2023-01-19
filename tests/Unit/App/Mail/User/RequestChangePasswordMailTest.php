@@ -16,7 +16,7 @@ class RequestChangePasswordMailTest extends TestCase
     {
         $user = $this->userTenant;
         $subject = config('app.name').' - Requested to Change Password';
-        $url = url("/user/change-password/from-mail/{$user->uuid}");
+        $url = url("/change-password/{$user->uuid}");
 
         $mailable = new ChangePasswordMail($user);
         $mailable->assertHasSubject($subject);
