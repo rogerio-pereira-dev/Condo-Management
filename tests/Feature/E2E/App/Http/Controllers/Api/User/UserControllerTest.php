@@ -231,7 +231,7 @@ class UserControllerTest extends TestCase
                 ]
             ],
             'admin_users' => [
-                'category' => 'admin',
+                'category' => 'Admin',
                 'count' => 2,
                 'json' => [
                     'data' => [
@@ -251,7 +251,7 @@ class UserControllerTest extends TestCase
                 ]
             ],
             'maintenance_users' => [
-                'category' => 'maintenance',
+                'category' => 'Maintenance',
                 'count' => 1,
                 'json' => [
                     'data' => [
@@ -265,7 +265,7 @@ class UserControllerTest extends TestCase
                 ]
             ],
             'tenant_users' => [
-                'category' => 'tenant',
+                'category' => 'Tenant',
                 'count' => 1,
                 'json' => [
                     'data' => [
@@ -279,7 +279,7 @@ class UserControllerTest extends TestCase
                 ]
             ],
             'employee_users' => [
-                'category' => 'employee',
+                'category' => 'Employee',
                 'count' => 3,
                 'json' => [
                     'data' => [

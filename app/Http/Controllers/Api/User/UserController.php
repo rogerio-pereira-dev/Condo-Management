@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $query = User::orderBy('id');
 
-        if(isset($category) && $category == 'employee') {
+        if(isset($category) && $category == 'Employee') {
             $query->where('role', '<>', 'Tenant');
         }
         elseif(isset($category)) {
