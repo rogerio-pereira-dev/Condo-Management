@@ -26,6 +26,7 @@ class ChangePasswordControllerTest extends TestCase
         ];
     }
 
+    #region dataProviders
     public function changePasswordProvider() : array
     {
         return [
@@ -81,6 +82,7 @@ class ChangePasswordControllerTest extends TestCase
             ],
         ];
     }
+
     public function requestPasswordChangeProvider() : array
     {
         return [
@@ -116,6 +118,106 @@ class ChangePasswordControllerTest extends TestCase
             ],
         ];
     }
+
+    public function resetPasswordProvider() : array
+    {
+        return [
+            'ok' => [
+                'data' => [
+                    'password' => 'New@Passw0rd',
+                    'confirmation' => 'New@Passw0rd',
+                ],
+                'status' => 200,
+                'json' => [
+                    'message' => 'Password reseted.'
+                ]
+            ],
+            'validation_required' => [
+                'data' => [],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'password' => ['The password field is required.'],
+                        'confirmation' => ['The confirmation field is required.'],
+                    ]
+                ]
+            ],
+            'validation_same' => [
+                'data' => [
+                    'password' => 'New@Passw0rd',
+                    'confirmation' => 'New@Passw0rdWrong',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'confirmation' => ['The confirmation and password must match.'],
+                    ]
+                ]
+            ],
+            'validaton_password' => [
+                'data' => [
+                    'password' => 'pass',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'password' => [
+                            'The password must be at least 8 characters.',
+                            'The password must contain at least one uppercase and one lowercase letter.',
+                            'The password must contain at least one symbol.',
+                            'The password must contain at least one number.'
+                        ],
+                    ]
+                ]
+            ],
+            'validaton_email' => [
+                'data' => [
+                    'email' => 'email',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'email' => [
+                            'The email must be a valid email address.',
+                        ],
+                    ]
+                ]
+            ],
+            'validaton_email2' => [
+                'data' => [
+                    'email' => 'email@',
+                ],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'email' => [
+                            'The email must be a valid email address.',
+                        ],
+                    ]
+                ]
+            ],
+            'wrong_uuid' => [
+                'data' => [
+                    'uuid' => 'wrong',
+                    'password' => 'New@Passw0rd',
+                    'confirmation' => 'New@Passw0rd',
+                ],
+                'status' => 404,
+                'json' => []
+            ],
+            'wrong_email' => [
+                'data' => [
+                    'email' => 'wrong@email.com',
+                    'password' => 'New@Passw0rd',
+                    'confirmation' => 'New@Passw0rd',
+                ],
+                'status' => 404,
+                'json' => []
+            ],
+        ];
+    }
+
+    #endregion
 
 
     /**
@@ -176,6 +278,43 @@ class ChangePasswordControllerTest extends TestCase
         }
     }
 
+    /**
+     * Test Update User
+     * 
+     * @dataProvider resetPasswordProvider
+     */
+    public function testResetPassword($data, $status, $json)
+    {
+        $user = $this->userAdmin->refresh();
+
+        $credentials = [
+            'email' => $user->email,
+            'password' => isset($data['password']) ? $data['password'] : 'wrongPassword'
+        ];
+        
+        if(!isset($data['uuid'])) {
+            $data['uuid'] = $user->uuid; 
+        }
+
+        if(!isset($data['email'])) {
+            $data['email'] = $user->email; 
+        }
+
+        $this->failedlogin($credentials);
+
+        $this->postJson(self::URL.'/reset', $data)
+            ->assertStatus($status)
+            ->assertJson($json);
+
+        if($status == 200) {
+            $this->checkPasswordHash($data['password']);
+            $this->login($credentials);
+        }
+        else {
+            $this->failedlogin($credentials);
+        }
+    }
+
     #region privateFunctions
     /**
      * Check if Password Hash is valid
@@ -220,6 +359,22 @@ class ChangePasswordControllerTest extends TestCase
         
         $logedUser = Auth::user(); 
         $this->assertEquals('admin@user.com', $logedUser->email);
+    }
+
+    /**
+     * Failed Login using provided credentials
+     *
+     * @param array $data
+     * @return void
+     */
+    private function failedlogin(array $credentials)
+    {
+        $this->assertTrue(Auth::guest());
+
+        $this->postJson('/api/login', $credentials)
+                ->assertStatus(403);
+        
+        $this->assertTrue(Auth::guest());
     }
     #endregion
 }
