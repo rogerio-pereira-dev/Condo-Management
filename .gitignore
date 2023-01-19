@@ -16,7 +16,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-**/coverage/
-.phpunit.result.cache
-/.phpunit.cache/
-clover.xml

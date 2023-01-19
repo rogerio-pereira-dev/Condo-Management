@@ -1,13 +1,10 @@
-name: Tests
-on:
+on: 
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches: [ main ]
 
+name: Tests
 jobs:
-  laravel-tests:
+  phpunit:
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
@@ -21,32 +18,20 @@ jobs:
         ports:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+ 
     steps:
-      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-        with:
-          php-version: '8.1'
-
-      - uses: actions/checkout@v3
-
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
-
-      - name: Install Dependencies
-        run: composer install --no-scripts
-
-      - name: Generate key
-        run: php artisan key:generate
-
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: vendor/bin/phpunit
-
-      - name: phpunit-coverage-badge
-        uses: timkrase/phpunit-coverage-badge@v1.2.0
-        with:
-            report: storage/clover.xml
-            report_type: clover
-            coverage_badge_path: 'badge.svg'
-            push_badge: true
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-      
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+ 
+    - name: Install composer dependencies
+      run: |
+        composer install --no-scripts
+ 
+    - name: Prepare Laravel Application
+      run: |
+        cp .env.ci .env
+        php artisan key:generate
+ 
+    - name: Run tests
+      run: vendor/bin/phpunit
