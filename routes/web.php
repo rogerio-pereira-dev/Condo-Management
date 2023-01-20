@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['auth:sanctum'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 });

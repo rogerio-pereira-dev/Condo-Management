@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
         User::factory()->create([
                 'name' => 'Rogerio Pereira',
                 'email' => 'hi@rogeriopereira.dev',
-                'password' => '$2y$10$HVuDYFwgYUeEaZls.pGauOuGkRItjkAqKViHa5X32mSK9p/UQHY3.',
+                'password' => '$2y$10$r0PBqkfJSv543ZDWzsl7peQcEHbUqeul/IDxGNbQx7mzJ2LrEUHsm',
                 'role' => 'Admin'
             ]);
 

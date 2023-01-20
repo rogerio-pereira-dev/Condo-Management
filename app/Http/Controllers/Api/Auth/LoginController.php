@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use App\Http\Requests\Auth\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -15,6 +16,8 @@ class LoginController extends Controller
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) { 
+            Session::regenerate();
+
             $user = Auth::user();
 
             return response()->json([
