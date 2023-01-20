@@ -9,7 +9,9 @@
                 width='100vh'
                 class='d-flex'
                 v-if='user'
+                color='primary'
             >
+                <!-- <menu /> -->
                 <v-list-item
                     prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
                     :title="user.name"
@@ -27,30 +29,37 @@
                 <v-divider />
 
                 <v-list density="compact" nav>
-                <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
-                <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-                <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+                    <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
+                    <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
+                    <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
                 </v-list>
 
-                <v-divider class='mt-2'></v-divider>
+                <v-divider class='my-2'/>
+
+                <v-list-item 
+                    title="Logout" value="Logout"
+                    prepend-icon="mdi-exit-run" 
+                    color='grey-lighten-2 bg-secondary-lighten-2'
+                    @click.stop='logout'
+                ></v-list-item>
+
+                <v-divider class='my-2'></v-divider>
 
                 <template v-slot:append>
-                    <v-divider class='mt-2' />
-                    <div class="pa-2">
-                        <v-footer class='justify-center align-self-end'>
-                            <small>
-                                <a 
-                                    href='https://github.com/rogerio-pereira-dev/Condo-Management/blob/main/LICENSE' 
-                                    target='_blank' 
-                                    title='Copyleft 2023 - General Public License 3.0'
-                                    class='copyleft'
-                                    color='text'
-                                >
-                                    <v-icon size='x-large'>mdi-copyleft</v-icon>
-                                </a>
-                            </small>
-                        </v-footer>
-                    </div>
+                    <v-divider class='my-2' />
+                    <v-footer class='justify-center align-self-end' color='primary'>
+                        <small>
+                            <a 
+                                href='https://github.com/rogerio-pereira-dev/Condo-Management/blob/main/LICENSE' 
+                                target='_blank' 
+                                title='Copyleft 2023 - General Public License 3.0'
+                                class='copyleft'
+                                color='text bg-primary'
+                            >
+                                <v-icon size='x-large' color='grey-lighten-1'>mdi-copyleft</v-icon>
+                            </a>
+                        </small>
+                    </v-footer>
                 </template>
             </v-navigation-drawer>
 
@@ -69,7 +78,7 @@
 import { usePage } from '@inertiajs/vue3'
 
 export default {
-    components: { },
+    components: {  },
 
     props: {
     },
@@ -91,7 +100,16 @@ export default {
     },
 
     methods: {
-
+        logout()
+        {
+            axios.post('/api/logout', {})
+                .then(response => {
+                    this.$inertia.visit(route('login'))
+                })
+                .catch(error => {
+                    
+                })
+        }
     },
 
     computed: {

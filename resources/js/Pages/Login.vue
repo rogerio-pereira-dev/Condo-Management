@@ -18,6 +18,7 @@
                             label="Email"
                             variant='solo'
                             class='my-0 py-0'
+                            @keydown.enter.prevent="login"
                         ></v-text-field>
 
                         <validation-errors v-if='errors.email' class='px-6' :errors="errors.email" />
@@ -31,6 +32,7 @@
                             placeholder="Password"
                             variant='solo'
                             :type="showPassword ? 'text' : 'password'"
+                            @keydown.enter.prevent="login"
                         >
                             <template v-slot:append-inner>
                                 <v-icon @click='toggleShowPassword' v-if='showPassword'>mdi-eye-off</v-icon>
@@ -90,8 +92,6 @@ export default {
             axios.post('/api/login', this.form)
                 .then(response => {
                     if(response.data.message == 'Login successfull') {
-                        // window.location.href = '/';
-                        console.log(response.data)
                         this.$inertia.visit(route('home'), { method: 'get'})
                     }
                 })
