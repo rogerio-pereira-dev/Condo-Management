@@ -26,6 +26,7 @@ jobs:
  
     - name: Setup Javascript
       run: |
+        npm ci
         npm run build
  
     - name: Run tests
