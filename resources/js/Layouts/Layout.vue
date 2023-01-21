@@ -11,7 +11,6 @@
                 v-if='user'
                 color='primary'
             >
-                <!-- <menu /> -->
                 <v-list-item
                     prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
                     :title="user.name"

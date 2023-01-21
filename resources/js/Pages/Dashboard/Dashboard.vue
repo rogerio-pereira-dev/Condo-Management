@@ -1,7 +1,19 @@
 <template>
-    <div>
-        <h1>Dashboard</h1>
-    </div>
+    <v-col cols=12 class='mx-auto'>
+        <v-card min-height="90vh">
+            <template v-slot:loader>
+                <custom-progress-bar :active="loading" />
+            </template>
+
+            <v-card-title class='mb-6 text-h4'>
+                Dashboard
+            </v-card-title>
+            
+            <v-card-text >
+                Dashboard
+            </v-card-text>  
+        </v-card>
+    </v-col>
 </template>
 
 <script>
