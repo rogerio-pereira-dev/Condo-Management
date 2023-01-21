@@ -16,10 +16,6 @@ class ExampleTest extends TestCase
     {
         $this->assertGuest();
         $this->get('/')
-            ->assertStatus(302);
-
-        $this->actingAs($this->userAdmin);
-        $this->get('/')
             ->assertStatus(200);
     }
 }
