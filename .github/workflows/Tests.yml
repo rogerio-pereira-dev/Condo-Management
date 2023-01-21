@@ -24,6 +24,10 @@ jobs:
         cp .env.ci .env
         php artisan key:generate
  
+    - name: Setup Javascript
+      run: |
+        npm run build
+ 
     - name: Run tests
       run: vendor/bin/phpunit
 
