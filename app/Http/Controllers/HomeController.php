@@ -10,6 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
+        if(Auth::guest())
+            return to_route('login');
+            
         return Inertia::render('Dashboard/Dashboard');
     }
 }
