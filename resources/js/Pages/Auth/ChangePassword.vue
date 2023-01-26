@@ -1,4 +1,11 @@
 <template>
+    <notification 
+        :show='snackbar.show' 
+        :timeout='snackbar.timeout' 
+        :color='snackbar.color' 
+        :text='snackbar.text' 
+    />
+    
     <v-col cols=12 class='mx-auto'>
         <v-card min-height="90vh">
             <template v-slot:loader>
@@ -72,9 +79,10 @@
 <script>
 import CustomProgressBar from '../../Components/CustomProgressBar.vue'
 import ValidationErrors from '../../Components/ValidationErrors.vue'
+import Notification from '../../Components/Notification.vue'
 
 export default {
-    components: { CustomProgressBar, ValidationErrors },
+    components: { CustomProgressBar, ValidationErrors, Notification },
 
     props: {
         
@@ -90,6 +98,12 @@ export default {
             showPassword: false,
             errors: [],
             loading: false,
+            snackbar: {
+                show: false,
+                timeout: 3000,
+                color: 'secondary',
+                text: '',
+            }
         }
     },
 
@@ -108,17 +122,32 @@ export default {
             this.loading = true;
             axios.post('/api/user/change-password', this.form)
                 .then(response => {
-                    this.$emit('showSnackBar', 'Password Changed', '3000', 'error')
+                    this.showSnackBar('Password Changed', '3000', 'success')
                     this.$inertia.visit(route('home'))
                 })
                 .catch(error => {
-                    if(error.response.status == 422 || error.response.status == 403)
+                    if(error.response.status == 422 || error.response.status == 403) {
                         this.errors = error.response.data.errors
+                    }
+                    else {
+                        const message = 'Failed to change password. Reason: '+error.response.data.message
+
+                        this.showSnackBar(message, 3000, 'error')
+                    }
                 })
                 .finally(() => {
                     this.loading = false
                 });
-        }
+        },
+
+        showSnackBar(text, timeout = 3000, color = 'secondary')
+        {
+            this.snackbar.text = text
+            this.snackbar.timeout = timeout
+            this.snackbar.color = color
+
+            this.snackbar.show = true
+        },
     },
 }
 </script>

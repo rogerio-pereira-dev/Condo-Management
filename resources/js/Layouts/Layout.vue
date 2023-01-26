@@ -25,7 +25,7 @@
                     </template>
                 </v-list-item>
 
-                <v-list-item prepend-icon="mdi-lock" title="Change Password" @click='navigate("change-password")'></v-list-item>
+                <v-list-item prepend-icon="mdi-lock" title="Change Password" @click.stop='navigate("change-password")'></v-list-item>
 
                 <v-divider />
 
