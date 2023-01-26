@@ -73,8 +73,8 @@
 import { mapActions } from 'pinia'
 import {useNotificationStore} from '@/modules/store/NotificationStore'
 
-import CustomProgressBar from '../../Components/CustomProgressBar.vue'
-import ValidationErrors from '../../Components/ValidationErrors.vue'
+import CustomProgressBar from '@/Components/CustomProgressBar.vue'
+import ValidationErrors from '@/Components/ValidationErrors.vue'
 
 export default {
     components: { 
