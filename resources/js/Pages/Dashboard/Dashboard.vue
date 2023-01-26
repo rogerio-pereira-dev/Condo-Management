@@ -17,17 +17,18 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/vue3'
+
+import CustomProgressBar from '@/Components/CustomProgressBar.vue'
 
 export default {
-    components: { },
+    components: { CustomProgressBar },
 
     props: {
     },
 
     data() {
         return {
-
+            loading: false
         }
     },
 
