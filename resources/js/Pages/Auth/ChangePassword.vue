@@ -1,11 +1,4 @@
 <template>
-    <notification 
-        :show='snackbar.show' 
-        :timeout='snackbar.timeout' 
-        :color='snackbar.color' 
-        :text='snackbar.text' 
-    />
-    
     <v-col cols=12 class='mx-auto'>
         <v-card min-height="90vh">
             <template v-slot:loader>
@@ -77,12 +70,17 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import {useNotificationStore} from '@/modules/store/NotificationStore'
+
 import CustomProgressBar from '../../Components/CustomProgressBar.vue'
 import ValidationErrors from '../../Components/ValidationErrors.vue'
-import Notification from '../../Components/Notification.vue'
 
 export default {
-    components: { CustomProgressBar, ValidationErrors, Notification },
+    components: { 
+        CustomProgressBar, 
+        ValidationErrors, 
+    },
 
     props: {
         
@@ -98,12 +96,6 @@ export default {
             showPassword: false,
             errors: [],
             loading: false,
-            snackbar: {
-                show: false,
-                timeout: 3000,
-                color: 'secondary',
-                text: '',
-            }
         }
     },
 
@@ -112,6 +104,13 @@ export default {
     },
 
     methods: {
+        ...mapActions( 
+            useNotificationStore, 
+            { 
+                showSnackbar: 'show' 
+            }
+        ),
+
         toggleShowPassword()
         {
             this.showPassword = !this.showPassword
@@ -122,7 +121,7 @@ export default {
             this.loading = true;
             axios.post('/api/user/change-password', this.form)
                 .then(response => {
-                    this.showSnackBar('Password Changed', '3000', 'success')
+                    this.showSnackbar('Password Changed', '3000', 'success')
                     this.$inertia.visit(route('home'))
                 })
                 .catch(error => {
@@ -132,21 +131,12 @@ export default {
                     else {
                         const message = 'Failed to change password. Reason: '+error.response.data.message
 
-                        this.showSnackBar(message, 3000, 'error')
+                        this.showSnackbar(message, 3000, 'error')
                     }
                 })
                 .finally(() => {
                     this.loading = false
                 });
-        },
-
-        showSnackBar(text, timeout = 3000, color = 'secondary')
-        {
-            this.snackbar.text = text
-            this.snackbar.timeout = timeout
-            this.snackbar.color = color
-
-            this.snackbar.show = true
         },
     },
 }

@@ -1,18 +1,18 @@
 <template>
     <v-snackbar
-        v-model="active"
+        v-model="notificationStore.active"
         location='top'
-        :timeout="timeout"
-        :color="color"
+        :timeout="notificationStore.timeout"
+        :color="notificationStore.color"
         multi-line
     >
-        {{ text }}
+        {{ notificationStore.text }}
 
         <template v-slot:actions>
             <v-btn
                 color="primary"
                 variant="text"
-                @click="show = false"
+                @click="hide"
             >
                 Close
             </v-btn>
@@ -22,44 +22,28 @@
 
 <script>
 
+import { mapStores } from 'pinia'
+import { mapActions } from 'pinia'
+import {useNotificationStore} from '@/modules/store/NotificationStore'
+
 export default {
-    props: {
-        show: {
-            required: true, 
-            type: Boolean,
-            default: true
-        },
-
-        timeout: {
-            required: true, 
-            type: Number,
-            default: 3000
-        },
-
-        color: {
-            required: true, 
-            type: String,
-            default: 'secondary'
-        },
-
-        text: {
-            required: true, 
-            type: Boolean,
-            default: ''
-        }
-    },
-
 
     data() {
         return {
-            active: false
         }
     },
 
-    watch: {
-        show(value) {
-            this.active = value
-        }
+    methods: {
+        ...mapActions( 
+            useNotificationStore, 
+            [ 
+                'hide' 
+            ]
+        ),
+    },
+
+    computed: {
+        ...mapStores( useNotificationStore )
     }
 }
 </script>

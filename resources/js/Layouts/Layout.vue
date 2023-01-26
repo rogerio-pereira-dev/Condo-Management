@@ -65,6 +65,8 @@
             </v-navigation-drawer>
 
             <v-main min-height='100vh' @click='collapsed = true'>
+                <notification />
+
                 <v-card min-height='100vh' class='p-10 d-flex align-center' >
                     <v-card-text class='d-flex'>
                         <slot />
@@ -77,9 +79,10 @@
 
 <script>
 import { usePage } from '@inertiajs/vue3'
+import Notification from '@/Components/Notification.vue'
 
 export default {
-    components: {  },
+    components: { Notification },
 
     props: {
     },
