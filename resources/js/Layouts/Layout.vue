@@ -25,6 +25,8 @@
                     </template>
                 </v-list-item>
 
+                <v-list-item prepend-icon="mdi-lock" title="Change Password" @click='navigate("change-password")'></v-list-item>
+
                 <v-divider />
 
                 <v-list density="compact" nav>
@@ -99,11 +101,16 @@ export default {
     },
 
     methods: {
+        navigate(routeName)
+        {
+            this.$inertia.visit(route(routeName))
+        },
+
         logout()
         {
             axios.post('/api/logout', {})
                 .then(response => {
-                    this.$inertia.visit(route('login'))
+                    this.navigate('login')
                 })
                 .catch(error => {
                     

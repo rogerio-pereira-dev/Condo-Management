@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
+use App\Mail\User\ChangePasswordMail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +22,6 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['auth:sanctum'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password');
 });
