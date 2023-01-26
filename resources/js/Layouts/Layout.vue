@@ -149,9 +149,24 @@ export default {
         menuAdmin() {
             return [
                 {
-                    icon: 'mdi-home-city',
+                    icon: 'mdi-home',
                     title: 'Home',
                     route: 'home'
+                },
+                // {
+                //     icon: 'mdi-home-city',
+                //     title: 'Floor Plans',
+                //     route: 'floor-plans'
+                // },
+                // {
+                //     icon: 'mdi-home-account',
+                //     title: 'Tenants',
+                //     route: 'tenants'
+                // },
+                {
+                    icon: 'mdi-account-group-outline',
+                    title: 'Employees',
+                    route: 'employees'
                 },
             ]
         },
