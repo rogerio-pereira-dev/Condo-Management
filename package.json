@@ -17,6 +17,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "pinia": "^2.0.29",
         "vuetify": "^3.1.2"
     }
 }

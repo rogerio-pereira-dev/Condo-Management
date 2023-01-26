@@ -9,10 +9,14 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 // Vuetify
 import vuetify from './modules/vuetify'
 
+//Pinia (state management)
+import { createPinia } from 'pinia'
+
 //Layout
 import Layout from './Layouts/Layout.vue'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const pinia = createPinia();
 
 createInertiaApp({
     title: (title) => `${appName}`,
@@ -27,6 +31,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(vuetify)
+            .use(pinia)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },
