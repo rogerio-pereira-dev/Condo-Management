@@ -1,6 +1,7 @@
 <template>
     <v-card>
         <v-layout>
+            <!-- Menu -->
             <v-navigation-drawer
                 v-model="drawer"
                 :rail="collapsed"
@@ -11,32 +12,51 @@
                 v-if='user'
                 color='primary'
             >
-                <v-list-item
-                    prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-                    :title="user.name"
-                    nav
-                >
-                    <template v-slot:append>
-                        <v-btn
-                            variant="text"
-                            icon="mdi-chevron-left"
-                            @click.stop="collapsed = !collapsed"
-                        ></v-btn>
-                    </template>
-                </v-list-item>
+                <!-- User and password -->
+                <v-list density="compact" nav>
+                    <v-list-item
+                        prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+                        :title="user.name"
+                        nav
+                    >
+                        <template v-slot:append>
+                            <v-btn
+                                variant="text"
+                                icon="mdi-chevron-left"
+                                @click.stop="collapsed = !collapsed"
+                            ></v-btn>
+                        </template>
+                    </v-list-item>
 
-                <v-list-item prepend-icon="mdi-lock" title="Change Password" @click.stop='navigate("change-password")'></v-list-item>
+                    <v-list-item 
+                        prepend-icon="mdi-lock" 
+                        title="Change Password" 
+                        @click.stop='navigate("change-password")'
+                    />
+                </v-list>
 
                 <v-divider />
 
-                <v-list density="compact" nav>
-                    <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
-                    <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-                    <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
-                </v-list>
+                <!-- Main Menu -->
+                <menu-list 
+                    v-if="user.role == 'Admin'" 
+                    :menuItems='menuAdmin' 
+                    @navigate='navigate' 
+                />
+                <menu-list 
+                    v-else-if="user.role == 'Maintenance'" 
+                    :menuItems='menuMaintenance' 
+                    @navigate='navigate' 
+                />
+                <menu-list 
+                    v-else-if="user.role == 'Tenant'" 
+                    :menuItems='menuTenant' 
+                    @navigate='navigate' 
+                />
 
                 <v-divider class='my-2'/>
 
+                <!-- Logout -->
                 <v-list-item 
                     title="Logout" value="Logout"
                     prepend-icon="mdi-exit-run" 
@@ -46,6 +66,7 @@
 
                 <v-divider class='my-2'></v-divider>
 
+                <!-- Footer -->
                 <template v-slot:append>
                     <v-divider class='my-2' />
                     <v-footer class='justify-center align-self-end' color='primary'>
@@ -64,9 +85,11 @@
                 </template>
             </v-navigation-drawer>
 
+            <!-- Main Section -->
             <v-main min-height='100vh' @click='collapsed = true'>
                 <notification />
 
+                <!-- Page Content -->
                 <v-card min-height='100vh' class='p-10 d-flex align-center' >
                     <v-card-text class='d-flex'>
                         <slot />
@@ -80,9 +103,10 @@
 <script>
 import { usePage } from '@inertiajs/vue3'
 import Notification from '@/Components/Notification.vue'
+import MenuList from './Components/MenuList.vue'
 
 export default {
-    components: { Notification },
+    components: { Notification, MenuList },
 
     props: {
     },
@@ -90,11 +114,6 @@ export default {
     data() {
         return {
             drawer: true,
-            items: [
-            { title: 'Home', icon: 'mdi-home-city' },
-            { title: 'My Account', icon: 'mdi-account' },
-            { title: 'Users', icon: 'mdi-account-group-outline' },
-            ],
             collapsed: true,
         }
     },
@@ -106,6 +125,7 @@ export default {
     methods: {
         navigate(routeName)
         {
+            this.collapsed = true
             this.$inertia.visit(route(routeName))
         },
 
@@ -124,6 +144,36 @@ export default {
     computed: {
         user() {
             return usePage().props.auth.user
+        },
+
+        menuAdmin() {
+            return [
+                {
+                    icon: 'mdi-home-city',
+                    title: 'Home',
+                    route: 'home'
+                },
+            ]
+        },
+
+        menuMaintenance() {
+            return [
+                {
+                    icon: 'mdi-home-city',
+                    title: 'Home',
+                    route: 'home'
+                },
+            ]
+        },
+
+        menuTenant() {
+            return [
+                {
+                    icon: 'mdi-home-city',
+                    title: 'Home',
+                    route: 'home'
+                },
+            ]
         },
     }
 }
