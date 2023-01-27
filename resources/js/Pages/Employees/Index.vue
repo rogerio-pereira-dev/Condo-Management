@@ -23,7 +23,9 @@
                                     density="compact"
                                 ></v-text-field>
 
-                                <v-btn color='primary' class='ml-4'>New</v-btn>
+                                <v-btn color='primary' class='ml-4' @click='openCreateForm'>
+                                    New
+                                </v-btn>
                             </v-col>
                         </v-row>
 
@@ -45,6 +47,7 @@
                                             color='primary' 
                                             size='small' 
                                             class='mx-2'
+                                            @click='edit(item.raw)'
                                         >
                                             mdi-pencil
                                         </v-icon>
@@ -85,6 +88,13 @@
             </v-card-text>  
         </v-card>
     </v-col>
+
+    <form-employee 
+        :employee='employee'
+        :showDialog='showForm'
+        @updateUser='updateUser'
+        @close='closeFormDialog'
+    />
 </template>
 
 <script>
@@ -93,9 +103,10 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 
 import {useNotificationStore} from '@/modules/store/NotificationStore'
 import CustomProgressBar from '@/Components/CustomProgressBar.vue'
+import FormEmployee from './FormEmployee.vue'
 
 export default {
-    components: { VDataTable, CustomProgressBar },
+    components: { VDataTable, CustomProgressBar, FormEmployee },
 
     props: {
         
@@ -105,6 +116,7 @@ export default {
         return {
             loading: true,
             employees: [],
+            employee: {},
             itemsPerPage: 25,
             search: '',
             headers: [
@@ -133,7 +145,9 @@ export default {
                     key: 'actions',
                     width: '150px'
                 }
-            ]
+            ],
+
+            showForm: false, 
         }
     },
 
@@ -185,6 +199,12 @@ export default {
                 });
         },
 
+        edit(employee)
+        {
+            this.employee = employee
+            this.showForm = true
+        },
+
         deleteUser(id)
         {
             this.loading = true
@@ -202,7 +222,22 @@ export default {
                 .finally(() => {
                     this.loading = false
                 });
-        }
+        },
+
+        openCreateForm() {
+            this.employee = {}
+            this.showForm = true
+        },
+
+        closeFormDialog() {
+            this.employee = {}
+            this.showForm = false
+        },
+
+        updateUser(name, email) {
+            this.employee.name = name
+            this.employee.email = email
+        },
     },
 }
 </script>
