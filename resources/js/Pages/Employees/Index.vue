@@ -92,7 +92,8 @@
     <form-employee 
         :employee='employee'
         :showDialog='showForm'
-        @updateUser='updateUser'
+        @updateEmployee='updateEmployee'
+        @createEmployee='createEmployee'
         @close='closeFormDialog'
     />
 </template>
@@ -234,10 +235,15 @@ export default {
             this.showForm = false
         },
 
-        updateUser(name, email) {
+        updateEmployee(name, email) {
             this.employee.name = name
             this.employee.email = email
         },
+
+        createEmployee()
+        {
+            this.loadEmployees()
+        }
     },
 }
 </script>

@@ -200,7 +200,7 @@ export default {
             this.loading = true
             axios.post('/api/user', this.form)
                 .then(response => {
-                    this.$emit('createUser', this.form)
+                    this.$emit('createEmployee')
                     this.clearData()
                     this.$emit('close')
                 })
@@ -227,7 +227,7 @@ export default {
                     email: this.form.email,
                 })
                 .then(response => {
-                    this.$emit('updateUser', this.form.name, this.form.email)
+                    this.$emit('updateEmployee', this.form.name, this.form.email)
                     this.clearData()
                     this.$emit('close')
                 })
