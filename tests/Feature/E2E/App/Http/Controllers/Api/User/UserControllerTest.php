@@ -369,14 +369,11 @@ class UserControllerTest extends TestCase
                     'password' => 'newPassword123',
                     'confirmation' => 'newPassword123',
                 ],
-                'status' => 200,
+                'status' => 422,
                 'json' => [
-                    'message' => 'User updated.',
-                    'user' => [
-                        'id' => 3,
-                        'name' => 'User Tenant',
-                        'email' => 'tenat@user.com',
-                        'role' => 'Tenant'
+                    'errors' => [
+                        'name' => ['The name field is required when email is not present.'],
+                        'email' => ['The email field is required when name is not present.'],
                     ]
                 ]
             ],
@@ -385,14 +382,21 @@ class UserControllerTest extends TestCase
                     'password' => 'newPassword123',
                     'confirmation' => 'newPassword123',
                 ],
-                'status' => 200,
+                'status' => 422,
                 'json' => [
-                    'message' => 'User updated.',
-                    'user' => [
-                        'id' => 3,
-                        'name' => 'User Tenant',
-                        'email' => 'tenat@user.com',
-                        'role' => 'Tenant'
+                    'errors' => [
+                        'name' => ['The name field is required when email is not present.'],
+                        'email' => ['The email field is required when name is not present.'],
+                    ]
+                ]
+            ],
+            'validation_required_without' => [
+                'data' => [],
+                'status' => 422,
+                'json' => [
+                    'errors' => [
+                        'name' => ['The name field is required when email is not present.'],
+                        'email' => ['The email field is required when name is not present.'],
                     ]
                 ]
             ],
