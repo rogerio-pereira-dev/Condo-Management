@@ -27,7 +27,9 @@
                                 clearable
                             />
 
-                            <validation-errors v-if='errors.name' class='px-6' :errors="errors.name" />
+                            <small>
+                                <validation-errors v-if='errors.name' class='px-6' :errors="errors.name" />
+                            </small>
                         </v-col>
 
                         <!-- Email -->
@@ -40,7 +42,9 @@
                                 clearable
                             />
 
-                            <validation-errors v-if='errors.email' class='px-6' :errors="errors.email" />
+                            <small>
+                                <validation-errors v-if='errors.email' class='px-6' :errors="errors.email" />
+                            </small>
                         </v-col>
 
                         <!-- Role -->
@@ -53,7 +57,9 @@
                                 clearable
                             ></v-select>
 
-                            <validation-errors v-if='errors.role' class='px-6' :errors="errors.role" />
+                            <small>
+                                <validation-errors v-if='errors.role' class='px-6' :errors="errors.role" />
+                            </small>
                         </v-col>
 
                         <v-col xs='12' md='4' v-if="action == 'Create'">
@@ -71,7 +77,9 @@
                                 </template>
                             </v-text-field>
 
-                            <validation-errors v-if='errors.password' class='px-6' :errors="errors.password" />
+                            <small>
+                                <validation-errors v-if='errors.password' class='px-6' :errors="errors.password" />
+                            </small>
                         </v-col>
 
                         <v-col xs='12' md='4' v-if="action == 'Create'">
@@ -84,7 +92,9 @@
                                 clearable
                             />
 
-                            <validation-errors v-if='errors.confirmation' class='px-6' :errors="errors.confirmation" />
+                            <small>
+                                <validation-errors v-if='errors.confirmation' class='px-6' :errors="errors.confirmation" />
+                            </small>
                         </v-col>
                     </v-row>
                 </v-form>
@@ -175,6 +185,9 @@ export default {
             this.form.role = null
             this.form.password = null
             this.form.confirmation = null
+
+            this.errors = []
+            this.showPassword = false
         },
 
         toggleShowPassword()
@@ -200,9 +213,14 @@ export default {
                     this.$emit('close')
                 })
                 .catch(error => {
-                    const message = 'Failed to update employee. Reason: '+error.response.data.message
+                    if(error.response.status == 422 || error.response.status == 403) {
+                        this.errors = error.response.data.errors
+                    }
+                    else {
+                        const message = 'Failed to update employee. Reason: '+error.response.data.message
 
-                    this.showSnackbar(message, 3000, 'error')
+                        this.showSnackbar(message, 3000, 'error')
+                    }
                 })
                 .finally(() => {
                     this.loading = false
