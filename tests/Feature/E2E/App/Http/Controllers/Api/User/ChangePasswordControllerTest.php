@@ -305,6 +305,7 @@ class ChangePasswordControllerTest extends TestCase
         $this->postJson(self::URL.'/reset', $data)
             ->assertStatus($status)
             ->assertJson($json);
+        $this->logout();
 
         if($status == 200) {
             $this->checkPasswordHash($data['password']);
@@ -313,6 +314,24 @@ class ChangePasswordControllerTest extends TestCase
         else {
             $this->failedlogin($credentials);
         }
+    }
+
+    public function testResetPasswordShouldAuthenticateUser()
+    {
+        $user = $this->userAdmin->refresh();
+        $data = [
+            'password' => 'New@Passw0rd',
+            'confirmation' => 'New@Passw0rd',
+            'uuid' => $user->uuid,
+            'email' => $user->email,
+        ];
+
+        $this->assertGuest();
+
+        $this->postJson(self::URL.'/reset', $data)
+            ->assertStatus(200);
+
+        $this->assertAuthenticatedAs($user);
     }
 
     #region privateFunctions

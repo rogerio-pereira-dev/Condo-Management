@@ -20,8 +20,12 @@ use App\Http\Controllers\ChangePasswordController;
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/change-password/{uuid}', [ChangePasswordController::class, 'reset'])->name('reset-password');
 
-Route::group(['auth:sanctum'], function() {
+Route::group([
+        'auth:sanctum', 
+        'middleware' => ['authenticated']
+], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password');

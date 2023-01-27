@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\User\ChangePasswordMail;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\User\ResetPasswordRequest;
 use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\RequestChangePasswordRequest;
@@ -43,10 +44,13 @@ class ChangePasswordController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         
-        User::where('email', $data['email'])
-            ->where('uuid', $data['uuid'])
-            ->firstOrFail()
-            ->update($data);
+        $user = User::where('email', $data['email'])
+                    ->where('uuid', $data['uuid'])
+                    ->firstOrFail();
+        $user->update($data);
+
+        Auth::login($user);
+        Session::regenerate();
 
         return response()->json([
                         'message' => 'Password reseted.'
