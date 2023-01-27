@@ -81,14 +81,10 @@ class UserControllerTest extends TestCase
                     'password' => 'Tenant@2023',
                     'confirmation' => 'Tenant@2023',
                 ],
-                'status' => 201,
+                'status' => 422,
                 'json' => [
-                    'message' => 'User created.',
-                    'user' => [
-                        'id' => 4,
-                        'name' => 'User Tenant 2',
-                        'email' => 'tenant2@tenant2.com',
-                        'role' => 'Tenant'
+                    'errors' => [
+                        'role' => ['The role field is required.'],
                     ]
                 ]
             ],

@@ -197,7 +197,26 @@ export default {
 
         create()
         {
-            alert('create')
+            this.loading = true
+            axios.post('/api/user', this.form)
+                .then(response => {
+                    this.$emit('createUser', this.form)
+                    this.clearData()
+                    this.$emit('close')
+                })
+                .catch(error => {
+                    if(error.response.status == 422) {
+                        this.errors = error.response.data.errors
+                    }
+                    else {
+                        const message = 'Failed to create employee. Reason: '+error.response.data.message
+
+                        this.showSnackbar(message, 3000, 'error')
+                    }
+                })
+                .finally(() => {
+                    this.loading = false
+                });
         },
 
         update()
@@ -213,7 +232,7 @@ export default {
                     this.$emit('close')
                 })
                 .catch(error => {
-                    if(error.response.status == 422 || error.response.status == 403) {
+                    if(error.response.status == 422) {
                         this.errors = error.response.data.errors
                     }
                     else {
