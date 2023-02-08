@@ -10,12 +10,10 @@ use Inertia\Testing\AssertableInertia;
 
 class LogoutControllerTest extends TestCase
 {
-    CONST URL = '/logout';
-
     public function testRenderLoginPageAfterLogout()
     {
         $this->actingAs($this->userAdmin)
-            ->get(self::URL)
+            ->get('/logout')
             ->assertRedirect('/login');
     }
 }

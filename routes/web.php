@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\EmployeesController;
 use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\Auth\LogoutController;
 use App\Http\Controllers\Web\ChangePasswordController;
 
 /*
@@ -19,7 +20,7 @@ use App\Http\Controllers\Web\ChangePasswordController;
 */
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 Route::get('/change-password/{uuid}', [ChangePasswordController::class, 'reset'])->name('reset-password');
 
 Route::group([

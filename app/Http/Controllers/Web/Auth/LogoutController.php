@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class LogoutController extends Controller
 {
-    public function index()
+    public function logout()
     {
-        return Inertia::render('Login');
+        Auth::logout();
+        return to_route('login');
     }
 }

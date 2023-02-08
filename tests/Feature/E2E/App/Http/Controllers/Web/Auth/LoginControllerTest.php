@@ -10,12 +10,10 @@ use Inertia\Testing\AssertableInertia;
 
 class LoginControllerTest extends TestCase
 {
-    CONST URL = '/login';
-
     public function testRenderLoginPage()
     {
         $this->assertGuest()
-            ->get(self::URL)
+            ->get('/login')
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Login')
             );
