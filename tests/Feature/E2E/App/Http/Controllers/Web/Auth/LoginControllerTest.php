@@ -18,4 +18,11 @@ class LoginControllerTest extends TestCase
                 $page->component('Auth/Login')
             );
     }
+
+    public function testAuthUserCantAccessLoginPage()
+    {
+        $this->actingAs($this->userAdmin)
+            ->get('/login')
+            ->assertRedirect('/');
+    }
 }
