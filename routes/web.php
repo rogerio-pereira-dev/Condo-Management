@@ -6,7 +6,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\EmployeesController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\LogoutController;
-use App\Http\Controllers\Web\ChangePasswordController;
+use App\Http\Controllers\Web\Auth\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Web\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
