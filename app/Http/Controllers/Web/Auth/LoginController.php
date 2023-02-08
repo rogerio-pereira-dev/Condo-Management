@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        if(!Auth::guest())
+        if(Auth::user())
             return to_route('home');
 
         return Inertia::render('Auth/Login');
