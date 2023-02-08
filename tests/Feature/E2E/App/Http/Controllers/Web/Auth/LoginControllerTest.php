@@ -15,7 +15,7 @@ class LoginControllerTest extends TestCase
         $this->assertGuest()
             ->get('/login')
             ->assertInertia(fn (AssertableInertia $page) => 
-                $page->component('Login')
+                $page->component('Auth/Login')
             );
     }
 }
