@@ -2,10 +2,10 @@
 
 use App\Mail\User\ChangePasswordMail;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\EmployeesController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\EmployeesController;
+use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
