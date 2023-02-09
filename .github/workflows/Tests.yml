@@ -28,7 +28,7 @@ jobs:
     - name: Setup Javascript
       run: |
         ./vendor/bin/sail npm ci
-        ./vendor/bin/sailnpm run build
+        ./vendor/bin/sail npm run build
  
     - name: Run tests
       run: |
