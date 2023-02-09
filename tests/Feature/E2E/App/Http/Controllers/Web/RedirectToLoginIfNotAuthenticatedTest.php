@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web;
 
-use Tests\TestCase;
+use Tests\TestWebCase;
 
-class RedirectToLoginIfNotAuthenticatedTest extends TestCase 
+class RedirectToLoginIfNotAuthenticatedTest extends TestWebCase 
 {
     public function urlDataProvider() : array
     {

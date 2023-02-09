@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web;
 
-use Tests\TestCase;
+use Tests\TestWebCase;
 use Inertia\Testing\AssertableInertia;
 
-class HomeControllerTest extends TestCase
+class HomeControllerTest extends TestWebCase
 {
     public function testRenderHomePageIfAuthenticated()
     {

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web\Auth;
 
-use Tests\TestCase;
+use Tests\TestWebCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 
-class ChangePassswordControllerTest extends TestCase
+class ChangePassswordControllerTest extends TestWebCase
 {
     public function testRenderResetPasswordPage()
     {

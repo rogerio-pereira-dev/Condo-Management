@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web;
 
-use Tests\TestCase;
+use Tests\TestWebCase;
 use Inertia\Testing\AssertableInertia;
 
-class EmployeesControllerTest extends TestCase
+class EmployeesControllerTest extends TestWebCase
 {
     public function testRenderEmployeesPage()
     {
