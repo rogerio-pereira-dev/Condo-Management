@@ -12,7 +12,6 @@ class EmployeesControllerTest extends TestCase
         $this
             ->actingAs($this->userAdmin)
             ->get('/employees')
-            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Employees/Index')
             );

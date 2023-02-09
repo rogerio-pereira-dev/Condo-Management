@@ -16,7 +16,6 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->assertGuest()
             ->get('/change-password/'.$user->uuid)
-            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/ResetPassword')
             );
@@ -28,7 +27,6 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->assertGuest()
             ->get('/change-password/wrong-uuid')
-            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/ResetPassword')
             );
@@ -40,7 +38,6 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->actingAs($user)
             ->get('/change-password/'.$user->uuid)
-            ->assertSuccessful()
             ->assertRedirect('/change-password/'.$user->uuid);
         $this->assertGuest();
     }
@@ -50,7 +47,6 @@ class ChangePassswordControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/change-password')
-            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/ChangePassword')
             );

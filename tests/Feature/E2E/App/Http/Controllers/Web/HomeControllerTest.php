@@ -11,7 +11,6 @@ class HomeControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/')
-            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Dashboard/Dashboard')
             );
@@ -21,7 +20,6 @@ class HomeControllerTest extends TestCase
     {
         $this->assertGuest()
             ->get('/')
-            ->assertSuccessful()
             ->assertRedirect('/login');
     }
 }

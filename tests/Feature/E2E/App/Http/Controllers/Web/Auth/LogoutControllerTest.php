@@ -14,7 +14,6 @@ class LogoutControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/logout')
-            ->assertSuccessful()
             ->assertRedirect('/login');
     }
 }

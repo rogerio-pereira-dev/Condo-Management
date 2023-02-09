@@ -22,7 +22,6 @@ class RedirectToLoginIfNotAuthenticatedTest extends TestCase
     {
         $this->assertGuest();
         $this->get($url)
-            ->assertSuccessful()
             ->assertRedirect('/login');
     }
 }

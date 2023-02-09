@@ -14,7 +14,6 @@ class LoginControllerTest extends TestCase
     {
         $this->assertGuest()
             ->get('/login')
-            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/Login')
             );
@@ -24,7 +23,6 @@ class LoginControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/login')
-            ->assertSuccessful()
             ->assertRedirect('/');
     }
 }
