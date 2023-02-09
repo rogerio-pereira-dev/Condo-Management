@@ -32,4 +32,4 @@ jobs:
  
     - name: Run tests
       run: |
-      ./vendor/bin/sail test
+        ./vendor/bin/sail test
