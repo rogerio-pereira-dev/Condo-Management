@@ -17,19 +17,19 @@ jobs:
   
     - name: Install composer dependencies
       run: |
-        ./vendor/bin/sail composer install --no-scripts
-        ./vendor/bin/sail update
+        composer install --no-scripts
+        composer update
  
     - name: Prepare Laravel Application
       run: |
         cp .env.ci .env
-        ./vendor/bin/sail artisan key:generate
+        php artisan key:generate
  
     - name: Setup Javascript
       run: |
-        ./vendor/bin/sail npm ci
-        ./vendor/bin/sail npm run build
+        npm ci
+        npm run build
  
     - name: Run tests
       run: |
-        ./vendor/bin/sail test
+        php artisan test
