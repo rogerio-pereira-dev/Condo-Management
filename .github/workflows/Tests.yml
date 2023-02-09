@@ -14,21 +14,22 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 1
- 
+  
     - name: Install composer dependencies
       run: |
-        composer install --no-scripts
-        composer update
+        ./vendor/bin/sail composer install --no-scripts
+        ./vendor/bin/sail update
  
     - name: Prepare Laravel Application
       run: |
         cp .env.ci .env
-        php artisan key:generate
+        ./vendor/bin/sail artisan key:generate
  
     - name: Setup Javascript
       run: |
-        npm ci
-        npm run build
+        ./vendor/bin/sail npm ci
+        ./vendor/bin/sailnpm run build
  
     - name: Run tests
-      run: php artisan test
+      run: |
+      ./vendor/bin/sail test
