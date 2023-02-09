@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web;
 
-use Tests\TestWebCase;
+use Tests\TestCase;
 
-class RedirectToLoginIfNotAuthenticatedTest extends TestWebCase 
+class RedirectToLoginIfNotAuthenticatedTest extends TestCase 
 {
     public function urlDataProvider() : array
     {
@@ -22,6 +22,7 @@ class RedirectToLoginIfNotAuthenticatedTest extends TestWebCase
     {
         $this->assertGuest();
         $this->get($url)
+            ->assertSuccessful()
             ->assertRedirect('/login');
     }
 }

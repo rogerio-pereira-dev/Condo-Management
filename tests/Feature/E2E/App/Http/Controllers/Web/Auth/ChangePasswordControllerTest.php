@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web\Auth;
 
-use Tests\TestWebCase;
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 
-class ChangePassswordControllerTest extends TestWebCase
+class ChangePassswordControllerTest extends TestCase
 {
     public function testRenderResetPasswordPage()
     {
@@ -16,6 +16,7 @@ class ChangePassswordControllerTest extends TestWebCase
 
         $this->assertGuest()
             ->get('/change-password/'.$user->uuid)
+            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/ResetPassword')
             );
@@ -27,6 +28,7 @@ class ChangePassswordControllerTest extends TestWebCase
 
         $this->assertGuest()
             ->get('/change-password/wrong-uuid')
+            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/ResetPassword')
             );
@@ -38,6 +40,7 @@ class ChangePassswordControllerTest extends TestWebCase
 
         $this->actingAs($user)
             ->get('/change-password/'.$user->uuid)
+            ->assertSuccessful()
             ->assertRedirect('/change-password/'.$user->uuid);
         $this->assertGuest();
     }
@@ -47,6 +50,7 @@ class ChangePassswordControllerTest extends TestWebCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/change-password')
+            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Auth/ChangePassword')
             );

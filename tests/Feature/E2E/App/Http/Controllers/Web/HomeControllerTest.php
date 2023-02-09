@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\E2E\App\Http\Controllers\Web;
 
-use Tests\TestWebCase;
+use Tests\TestCase;
 use Inertia\Testing\AssertableInertia;
 
-class HomeControllerTest extends TestWebCase
+class HomeControllerTest extends TestCase
 {
     public function testRenderHomePageIfAuthenticated()
     {
         $this->actingAs($this->userAdmin)
             ->get('/')
+            ->assertSuccessful()
             ->assertInertia(fn (AssertableInertia $page) => 
                 $page->component('Dashboard/Dashboard')
             );
@@ -20,6 +21,7 @@ class HomeControllerTest extends TestWebCase
     {
         $this->assertGuest()
             ->get('/')
+            ->assertSuccessful()
             ->assertRedirect('/login');
     }
 }
