@@ -4,10 +4,11 @@ namespace Tests\Feature\E2E\App\Http\Controllers\Web\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\Fluent\AssertableJson;
+use Inertia\Testing\Assert;
 use Inertia\Testing\AssertableInertia;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ChangePassswordControllerTest extends TestCase
 {
@@ -17,7 +18,7 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->assertGuest()
             ->get('/change-password/'.$user->uuid)
-            ->assertInertia(fn (AssertableJson $page) => 
+            ->assertInertia(fn (Assert $page) => 
                 $page->component('Auth/ResetPassword')
             );
     }
@@ -28,7 +29,7 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->assertGuest()
             ->get('/change-password/wrong-uuid')
-            ->assertInertia(fn (AssertableJson $page) => 
+            ->assertInertia(fn (Assert $page) => 
                 $page->component('Auth/ResetPassword')
             );
     }
@@ -48,7 +49,7 @@ class ChangePassswordControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/change-password')
-            ->assertInertia(fn (AssertableJson $page) => 
+            ->assertInertia(fn (Assert $page) => 
                 $page->component('Auth/ChangePassword')
             );
     }
