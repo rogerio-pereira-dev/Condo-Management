@@ -4,9 +4,10 @@ namespace Tests\Feature\E2E\App\Http\Controllers\Web\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginControllerTest extends TestCase
 {
@@ -14,7 +15,7 @@ class LoginControllerTest extends TestCase
     {
         $this->assertGuest()
             ->get('/login')
-            ->assertInertia(fn (AssertableInertia $page) => 
+            ->assertInertia(fn (AssertableJson $page) => 
                 $page->component('Auth/Login')
             );
     }

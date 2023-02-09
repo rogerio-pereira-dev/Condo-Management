@@ -4,6 +4,7 @@ namespace Tests\Feature\E2E\App\Http\Controllers\Web;
 
 use Tests\TestCase;
 use Inertia\Testing\AssertableInertia;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class HomeControllerTest extends TestCase
 {
@@ -11,7 +12,7 @@ class HomeControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/')
-            ->assertInertia(fn (AssertableInertia $page) => 
+            ->assertInertia(fn (AssertableJson $page) => 
                 $page->component('Dashboard/Dashboard')
             );
     }

@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia;
 
 class ChangePassswordControllerTest extends TestCase
@@ -16,7 +17,7 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->assertGuest()
             ->get('/change-password/'.$user->uuid)
-            ->assertInertia(fn (AssertableInertia $page) => 
+            ->assertInertia(fn (AssertableJson $page) => 
                 $page->component('Auth/ResetPassword')
             );
     }
@@ -27,7 +28,7 @@ class ChangePassswordControllerTest extends TestCase
 
         $this->assertGuest()
             ->get('/change-password/wrong-uuid')
-            ->assertInertia(fn (AssertableInertia $page) => 
+            ->assertInertia(fn (AssertableJson $page) => 
                 $page->component('Auth/ResetPassword')
             );
     }
@@ -47,7 +48,7 @@ class ChangePassswordControllerTest extends TestCase
     {
         $this->actingAs($this->userAdmin)
             ->get('/change-password')
-            ->assertInertia(fn (AssertableInertia $page) => 
+            ->assertInertia(fn (AssertableJson $page) => 
                 $page->component('Auth/ChangePassword')
             );
     }
