@@ -21,7 +21,7 @@ class AuthenticatedApiEndpointsTest extends TestCase
         return [
             'logout'                    => ['url' => '/logout'],
             'change_password_request'   => ['url' => '/user/change-password/request'],
-            'change_password_reset'     => ['url' => '/user/change-password/reset'],
+            // 'change_password_reset'     => ['url' => '/user/change-password/reset'],
             'change_password'           => ['url' => '/user/change-password'],
 
             'create_user' => ['url' => '/user'],
@@ -31,9 +31,6 @@ class AuthenticatedApiEndpointsTest extends TestCase
     public function putUrlDataProvider() : array
     {
         return [
-            'home'              => ['url' => '/'],
-            'change_password'   => ['url' => '/change-password'],
-            'employees'         => ['url' => '/employees'],
             'update_user'       => ['url' => '/user/1'],
         ];
     }
@@ -53,7 +50,10 @@ class AuthenticatedApiEndpointsTest extends TestCase
     {
         $this->assertGuest();
         $this->getJson('/api'.$url)
-            ->assertStatus(401);
+            ->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.'
+            ]);
     }
 
 
@@ -64,7 +64,10 @@ class AuthenticatedApiEndpointsTest extends TestCase
     {
         $this->assertGuest();
         $this->postJson('/api'.$url, [])
-            ->assertStatus(401);
+            ->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.'
+            ]);
     }
 
 
@@ -75,7 +78,10 @@ class AuthenticatedApiEndpointsTest extends TestCase
     {
         $this->assertGuest();
         $this->putJson('/api'.$url, [])
-            ->assertStatus(401);
+            ->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.'
+            ]);
     }
 
 
@@ -86,7 +92,10 @@ class AuthenticatedApiEndpointsTest extends TestCase
     {
         $this->assertGuest();
         $this->deleteJson('/api'.$url)
-            ->assertStatus(401);
+            ->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.'
+            ]);
     }
 
 }

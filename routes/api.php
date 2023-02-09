@@ -18,12 +18,15 @@ use App\Http\Controllers\Api\User\ChangePasswordController;
 |
 */
 
+Route::post('/user/change-password/reset', [ChangePasswordController::class, 'resetPassword']);
 
-Route::group(['auth:sanctum'], function(){
+Route::group([
+        'auth:sanctum',
+        'middleware' => ['apiAuthenticated']
+    ], function(){
     Route::post('/logout', [LogoutController::class, 'logout']);
 
     Route::post('/user/change-password/request', [ChangePasswordController::class, 'requestChangePassword']);
-    Route::post('/user/change-password/reset', [ChangePasswordController::class, 'resetPassword']);
     Route::post('/user/change-password', [ChangePasswordController::class, 'changePassword']);
     
     Route::get('/user/category/{category?}', [UserController::class, 'index']);
