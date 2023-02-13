@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->unsignedInteger('bedrooms');
-            $table->unsignedInteger('en_suite')->default(0);
+            $table->boolean('en_suite')->default(false);
             $table->boolean('has_garage')->default(false);
             $table->double('price');
             $table->timestamps();

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
+use App\Http\Controllers\Api\FloorPlans\FloorPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::group([
     
     Route::get('/user/category/{category?}', [UserController::class, 'index']);
     Route::apiResource('/user', UserController::class);
+    Route::apiResource('/floor_plan', FloorPlanController::class);
 });
 
 
