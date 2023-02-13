@@ -24,6 +24,7 @@ class FloorPlanResourceTest extends ResourceTestCase
     protected function expectedJsonStructure() : array
     {
         return [
+            'id',
             'name',
             'bedrooms',
             'en_suite',
